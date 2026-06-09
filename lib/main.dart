@@ -1,231 +1,197 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
-  runApp(const BrutalistPortfolioApp());
+  runApp(const PremiumBrutalistApp());
 }
 
-class BrutalistPortfolioApp extends StatelessWidget {
-  const BrutalistPortfolioApp({super.key});
+class PremiumBrutalistApp extends StatelessWidget {
+  const PremiumBrutalistApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Ahmad Wasim - Portfolio',
       theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
-        fontFamily: 'Courier', // Monospace font for brutalist look
+        scaffoldBackgroundColor: const Color(0xFFF0F0F0), // Slight off-white for contrast against pure white cards
+        textTheme: GoogleFonts.spaceGroteskTextTheme().apply(
+          bodyColor: Colors.black,
+          displayColor: Colors.black,
+        ),
         colorScheme: const ColorScheme.light(
           primary: Colors.black,
-          secondary: Colors.grey,
-          surface: Colors.white,
-          onSurface: Colors.black,
+          secondary: Colors.white,
         ),
-        textTheme: const TextTheme(
-          displayLarge: TextStyle(fontSize: 48, fontWeight: FontWeight.w900, color: Colors.black, letterSpacing: -2),
-          displayMedium: TextStyle(fontSize: 32, fontWeight: FontWeight.w900, color: Colors.black),
-          titleLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: Colors.black),
-          bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
-          bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black),
-        ),
-        useMaterial3: true,
       ),
-      home: const PortfolioPage(),
+      home: const PortfolioLayout(),
     );
   }
 }
 
-class PortfolioPage extends StatelessWidget {
-  const PortfolioPage({super.key});
+class PortfolioLayout extends StatelessWidget {
+  const PortfolioLayout({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24.0),
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 900),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                _buildHeader(),
-                const SizedBox(height: 32),
-                _buildSectionTitle('PROFESSIONAL SUMMARY'),
-                _buildBoxedText(
-                    'AWS-focused Cloud & DevOps Engineer with hands-on experience deploying and managing production infrastructure for enterprise clients. Skilled in building highly available environments, automating CI/CD pipelines, and driving digital transformation through modern web architectures. Experienced in full-stack deployments (Next.js, Python, Node.js) and committed to optimizing system performance, streamlining system architecture, and reducing technical debt.'),
-                const SizedBox(height: 32),
-                _buildSectionTitle('EXPERIENCE'),
-                _buildExperienceItem(
-                  'HashTurn Multan',
-                  'DevOps and Automation Engineer',
-                  'Oct 2025 – May 2026',
-                  '• Architected highly available, fault-tolerant cloud infrastructure, provisioning hardened RDP / VPS environments to accelerate team development cycles and ensure secure remote operations.\n• Deployed and managed scalable cross-stack applications (MERN, Python Flask) on EC2 / VPS utilizing NGINX reverse proxies, strict SSL termination, and systemd service management.',
-                ),
-                _buildExperienceItem(
-                  'Systems Limited Lahore',
-                  'DevOps Intern',
-                  'Jul 2025 – Sep 2025',
-                  '• Engineered an immutable, globally distributed portfolio via AWS S3, CloudFront, and GitHub Actions, successfully reducing latency by 50% through automated edge invalidation.\n• Provisioned multi-cloud infrastructure (AWS and Azure) utilizing Terraform and secured CI/CD pipelines enforcing least-privilege IAM roles.\n• Orchestrated Dockerized MERN and Flask applications with NGINX reverse proxies and SSL termination for zero-downtime production releases.',
-                ),
-                _buildExperienceItem(
-                  'Intl. Cricket Masters Remote',
-                  'Website & Digital Outreach Coordinator',
-                  'Dec 2024 – Feb 2025',
-                  '• Managed cloud platforms and optimized global web infrastructure, directly contributing to a 15-20% increase in digital reach and cross-browser delivery.',
-                ),
-                _buildExperienceItem(
-                  'Faysal Bank Limited Multan',
-                  'Networking & Infrastructure Intern',
-                  'Jul 2024 – Aug 2024',
-                  '• Resolved 150+ network and software tickets, achieving and maintaining a 95% first-call resolution rate.\n• Configured enterprise routers and switches, directly improving overarching system uptime by 30%.',
-                ),
-                const SizedBox(height: 32),
-                _buildSectionTitle('TECHNICAL PROJECTS'),
-                Wrap(
-                  spacing: 16,
-                  runSpacing: 16,
-                  children: [
-                    _buildProjectCard('KPRY - Local Fashion Discovery Engine', 'Next.js, AI, Web Scraping', 'Developing an AI-powered aggregator for Pakistan’s streetwear ecosystem utilizing a high-performance Next.js frontend, advanced deduplication scraping logic, and real-time cross-brand search algorithms.'),
-                    _buildProjectCard('Secure Full-Stack Data Aggregator', 'Django, PostgreSQL, NGINX', 'Architected a containerized stack on a Linux VM. Secured edge routing via NGINX, Cloudflare DDoS mitigation, and Certbot Strict SSL. Managed as a persistent systemd service.'),
-                    _buildProjectCard('HashDash - HR & Live Monitoring', 'Electron, Vite, WebRTC', 'Built a cross-platform desktop HR system with real-time screen monitoring. Deployed backend on a Linux VPS, configured NGINX reverse proxy with SSL.'),
-                    _buildProjectCard('RAG-Based Intelligent Query Bot', 'LangChain, FAISS, OpenAI GPT', 'Built an integration with a Streamlit UI for high-accuracy semantic search and document retrieval.'),
-                    _buildProjectCard('Cloud-Native Flask S3 Uploader', 'Flask, Gunicorn, AWS EC2', 'Application orchestrated with Gunicorn and NGINX for secure, systemd-managed S3 uploads.'),
-                    _buildProjectCard('Immutable Web Orchestration', 'AWS S3, CloudFront, GitHub Actions', 'Integrated distributions with CI/CD for automated, ephemeral web deployments.'),
-                    _buildProjectCard('3-Tier MERN Stack Platform', 'MERN, Docker Compose', 'Isolated frontend, backend, and DB environments via Docker Compose with NGINX proxying.'),
-                  ],
-                ),
-                const SizedBox(height: 32),
-                Row(
+      body: Stack(
+        children: [
+          // Background Grid Pattern
+          Positioned.fill(
+            child: CustomPaint(painter: GridPainter()),
+          ),
+          Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 1000),
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 64.0),
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          _buildSectionTitle('EDUCATION'),
-                          _buildEducationItem('Bachelor of Computer Science', 'Bahauddin Zakariya University\n2022 – June 2026\nCGPA: 3.82/4.00'),
-                          _buildEducationItem('FSc Pre-Engineering', 'Punjab College\n2020 – 2022\nGrade: A'),
-                          const SizedBox(height: 32),
-                          _buildSectionTitle('TECH SKILLS'),
-                          _buildSkillRow('OS', 'Ubuntu, Kali and distros'),
-                          _buildSkillRow('Cloud', 'AWS, Azure, GCP, Docker, Terraform'),
-                          _buildSkillRow('Servers', 'NGINX, Gunicorn, Caddy, WordPress'),
-                          _buildSkillRow('Languages', 'Bash, Python, JS, Next.js, PHP, C++'),
-                          _buildSkillRow('Databases', 'PostgreSQL, MySQL, MongoDB'),
-                          _buildSkillRow('Tools', 'WebRTC, Systemd, Git, GitHub Actions'),
-                        ],
-                      ),
+                    _buildHero(),
+                    const SizedBox(height: 64),
+                    _buildDivider(),
+                    _buildSectionHeader('01', 'PROFESSIONAL SUMMARY'),
+                    _buildSummaryCard(),
+                    const SizedBox(height: 64),
+                    _buildDivider(),
+                    _buildSectionHeader('02', 'EXPERIENCE'),
+                    _buildExperienceTimeline(),
+                    const SizedBox(height: 64),
+                    _buildDivider(),
+                    _buildSectionHeader('03', 'TECHNICAL PROJECTS'),
+                    _buildProjectsGrid(),
+                    const SizedBox(height: 64),
+                    _buildDivider(),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _buildSectionHeader('04', 'EDUCATION'),
+                              _buildEducationItem('Bachelor of Computer Science', 'Bahauddin Zakariya University\n2022 – June 2026\nCGPA: 3.82/4.00'),
+                              const SizedBox(height: 16),
+                              _buildEducationItem('FSc Pre-Engineering', 'Punjab College\n2020 – 2022 | Grade: A'),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 48),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _buildSectionHeader('05', 'SKILLS & CERTS'),
+                              _buildSkillPill('AWS, Azure, GCP, Docker, Terraform'),
+                              _buildSkillPill('Next.js, Python, Node.js, C++'),
+                              _buildSkillPill('NGINX, PostgreSQL, MongoDB, Git'),
+                              const SizedBox(height: 16),
+                              _buildListText('• IBM: Containers, K8s & OpenShift'),
+                              _buildListText('• Oracle: Cloud Infra Foundations'),
+                              _buildListText('• Google Cloud: Security Principles'),
+                              _buildListText('• US-DHS: IT & ICS Cybersecurity'),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 24),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          _buildSectionTitle('CERTIFICATIONS'),
-                          _buildListItems([
-                            'IBM: Containers, K8s & OpenShift',
-                            'Oracle: Cloud Infra Foundations',
-                            'Postman: API Fundamentals Expert',
-                            'Google Cloud: Security Principles',
-                            'Google Cloud: Risk Management',
-                            'Google Cloud: Core Infrastructure',
-                            'US-DHS: IT & ICS Cybersecurity',
-                            'US-DHS: Vulnerabilities Analysis',
-                            'Coursera: Starting with Docker',
-                            'Atlassian: Version Control with Git',
-                          ]),
-                          const SizedBox(height: 32),
-                          _buildSectionTitle('LEADERSHIP & SOFT SKILLS'),
-                          _buildListItems([
-                            'Co-Founder: Taj Foundation (2021 – Present)',
-                            'DevOps Lead: MLSA Multan (2024 – 2025)',
-                            'Member: GDSC-BZU (2024 – 2025)',
-                            'Excellent Communication',
-                            'Strategic Problem Solving',
-                          ]),
-                        ],
-                      ),
-                    ),
+                    const SizedBox(height: 128),
+                    _buildFooter(),
                   ],
                 ),
-                const SizedBox(height: 64),
-                _buildBrutalistFooter(),
-              ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
 
-  Widget _buildHeader() {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: Colors.black,
-        border: Border.all(color: Colors.black, width: 4),
-        boxShadow: const [
-          BoxShadow(color: Colors.grey, offset: Offset(8, 8), blurRadius: 0)
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'AHMAD WASIM',
-            style: TextStyle(
-              fontSize: 64,
-              fontWeight: FontWeight.w900,
-              color: Colors.white,
-              letterSpacing: -3,
-            ),
+  Widget _buildHero() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SelectableText(
+          'AHMAD WASIM',
+          style: GoogleFonts.spaceGrotesk(
+            fontSize: 88,
+            fontWeight: FontWeight.w900,
+            letterSpacing: -4,
+            height: 1.0,
+            color: Colors.black,
           ),
-          const Text(
+        ),
+        Container(
+          margin: const EdgeInsets.symmetric(vertical: 24),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          decoration: const BoxDecoration(color: Colors.black),
+          child: Text(
             'CLOUD & DEVOPS ENGINEER',
-            style: TextStyle(
-              fontSize: 24,
+            style: GoogleFonts.spaceMono(
+              fontSize: 20,
               fontWeight: FontWeight.bold,
               color: Colors.white,
               letterSpacing: 2,
             ),
           ),
-          const SizedBox(height: 16),
-          Container(height: 4, color: Colors.white),
-          const SizedBox(height: 16),
-          const Text(
-            'Lahore/Multan | +92 333 6736178\nmo.ahmedwasiim@gmail.com | github.com/ahmedwsiim',
-            style: TextStyle(fontSize: 16, color: Colors.white),
+        ),
+        Row(
+          children: [
+            _buildContactItem('Lahore/Multan'),
+            _buildContactItem('+92 333 6736178'),
+            _buildContactItem('mo.ahmedwasiim@gmail.com'),
+            _buildContactItem('github.com/ahmedwsiim'),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildContactItem(String text) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 24.0),
+      child: Row(
+        children: [
+          const Icon(Icons.arrow_forward_ios, size: 12),
+          const SizedBox(width: 8),
+          SelectableText(
+            text,
+            style: GoogleFonts.spaceMono(fontWeight: FontWeight.w600, fontSize: 14),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildSectionTitle(String title) {
+  Widget _buildDivider() {
+    return Container(
+      height: 4,
+      width: double.infinity,
+      color: Colors.black,
+      margin: const EdgeInsets.only(bottom: 32),
+    );
+  }
+
+  Widget _buildSectionHeader(String number, String title) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
-      child: Stack(
-        clipBehavior: Clip.none,
+      padding: const EdgeInsets.only(bottom: 32.0),
+      child: Row(
         children: [
-          Positioned(
-            left: 4,
-            top: 4,
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.w900,
-                color: Colors.grey,
-                letterSpacing: -1,
-              ),
+          Text(
+            number,
+            style: GoogleFonts.spaceMono(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Colors.grey[500],
             ),
           ),
+          const SizedBox(width: 16),
           Text(
             title,
-            style: const TextStyle(
-              fontSize: 32,
+            style: GoogleFonts.spaceGrotesk(
+              fontSize: 36,
               fontWeight: FontWeight.w900,
-              color: Colors.black,
               letterSpacing: -1,
             ),
           ),
@@ -234,141 +200,246 @@ class PortfolioPage extends StatelessWidget {
     );
   }
 
-  Widget _buildBoxedText(String text) {
+  Widget _buildSummaryCard() {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(32),
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border.all(color: Colors.black, width: 4),
-        boxShadow: const [
-          BoxShadow(color: Colors.black, offset: Offset(6, 6), blurRadius: 0)
-        ],
+        border: Border.all(color: Colors.black, width: 2),
       ),
-      child: Text(text, style: const TextStyle(fontSize: 16, height: 1.5)),
+      child: Text(
+        'AWS-focused Cloud & DevOps Engineer with hands-on experience deploying and managing production infrastructure for enterprise clients. Skilled in building highly available environments, automating CI/CD pipelines, and driving digital transformation through modern web architectures. Experienced in full-stack deployments (Next.js, Python, Node.js) and committed to optimizing system performance, streamlining system architecture, and reducing technical debt.',
+        style: GoogleFonts.spaceGrotesk(
+          fontSize: 20,
+          height: 1.6,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
     );
   }
 
-  Widget _buildExperienceItem(String company, String role, String date, String details) {
+  Widget _buildExperienceTimeline() {
+    return Column(
+      children: [
+        _buildExpRow('HashTurn Multan', 'DevOps and Automation Engineer', 'Oct 2025 – May 2026', '• Architected highly available, fault-tolerant cloud infrastructure, provisioning hardened RDP / VPS environments to accelerate team development cycles and ensure secure remote operations.\n• Deployed and managed scalable cross-stack applications (MERN, Python Flask) on EC2 / VPS utilizing NGINX reverse proxies, strict SSL termination, and systemd service management.'),
+        _buildExpRow('Systems Limited Lahore', 'DevOps Intern', 'Jul 2025 – Sep 2025', '• Engineered an immutable, globally distributed portfolio via AWS S3, CloudFront, and GitHub Actions, successfully reducing latency by 50% through automated edge invalidation.\n• Provisioned multi-cloud infrastructure (AWS and Azure) utilizing Terraform and secured CI/CD pipelines enforcing least-privilege IAM roles.\n• Orchestrated Dockerized MERN and Flask applications with NGINX reverse proxies and SSL termination for zero-downtime production releases.'),
+        _buildExpRow('Intl. Cricket Masters', 'Website & Digital Outreach Coordinator', 'Dec 2024 – Feb 2025', '• Managed cloud platforms and optimized global web infrastructure, directly contributing to a 15-20% increase in digital reach and cross-browser delivery.'),
+        _buildExpRow('Faysal Bank Limited', 'Networking & Infrastructure Intern', 'Jul 2024 – Aug 2024', '• Resolved 150+ network and software tickets, achieving and maintaining a 95% first-call resolution rate.\n• Configured enterprise routers and switches, directly improving overarching system uptime by 30%.'),
+      ],
+    );
+  }
+
+  Widget _buildExpRow(String company, String role, String date, String desc) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 24),
-      padding: const EdgeInsets.all(16),
       decoration: const BoxDecoration(
-        border: Border(left: BorderSide(color: Colors.black, width: 8)),
+        border: Border(bottom: BorderSide(color: Colors.black, width: 1)),
       ),
-      child: Column(
+      padding: const EdgeInsets.symmetric(vertical: 32),
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Text(company.toUpperCase(), style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w900)),
-              ),
-              Text(date, style: const TextStyle(fontWeight: FontWeight.bold)),
-            ],
+          Expanded(
+            flex: 2,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  company.toUpperCase(),
+                  style: GoogleFonts.spaceGrotesk(fontSize: 24, fontWeight: FontWeight.w900),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  role,
+                  style: GoogleFonts.spaceMono(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.grey[700]),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  date,
+                  style: GoogleFonts.spaceMono(fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: 4),
-          Text(role.toUpperCase(), style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey)),
-          const SizedBox(height: 12),
-          Text(details, style: const TextStyle(fontSize: 14, height: 1.6)),
+          const SizedBox(width: 32),
+          Expanded(
+            flex: 3,
+            child: Text(
+              desc,
+              style: GoogleFonts.spaceGrotesk(fontSize: 16, height: 1.6),
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildProjectCard(String title, String tech, String desc) {
+  Widget _buildProjectsGrid() {
+    return Wrap(
+      spacing: 24,
+      runSpacing: 24,
+      children: [
+        _buildHoverProject('KPRY - Fashion Engine', 'Next.js, AI, Web Scraping', 'AI-powered aggregator for streetwear ecosystem utilizing high-performance Next.js frontend and advanced deduplication.'),
+        _buildHoverProject('Secure Data Aggregator', 'Django, PostgreSQL, NGINX', 'Containerized stack on Linux VM. Secured edge routing via NGINX, Cloudflare DDoS mitigation, and Certbot Strict SSL.'),
+        _buildHoverProject('HashDash - HR Monitor', 'Electron, Vite, WebRTC', 'Cross-platform desktop HR system with real-time screen monitoring. Deployed backend on Linux VPS with NGINX.'),
+        _buildHoverProject('Cloud-Native S3 Uploader', 'Flask, Gunicorn, AWS EC2', 'Application orchestrated with Gunicorn and NGINX for secure, systemd-managed S3 uploads.'),
+      ],
+    );
+  }
+
+  Widget _buildHoverProject(String title, String tech, String desc) {
+    return HoverBox(
+      child: Container(
+        width: 450,
+        height: 250,
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Colors.black, width: 2),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title.toUpperCase(),
+              style: GoogleFonts.spaceGrotesk(fontSize: 22, fontWeight: FontWeight.w900, letterSpacing: -0.5),
+            ),
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              color: Colors.black,
+              child: Text(
+                tech,
+                style: GoogleFonts.spaceMono(fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Expanded(
+              child: Text(
+                desc,
+                style: GoogleFonts.spaceGrotesk(fontSize: 15, height: 1.5),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEducationItem(String degree, String desc) {
     return Container(
-      width: 400,
-      padding: const EdgeInsets.all(16),
+      width: double.infinity,
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border.all(color: Colors.black, width: 4),
-        boxShadow: const [
-          BoxShadow(color: Colors.black, offset: Offset(6, 6), blurRadius: 0)
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(title.toUpperCase(), style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900)),
-          const SizedBox(height: 8),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            color: Colors.black,
-            child: Text(tech.toUpperCase(), style: const TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold)),
-          ),
-          const SizedBox(height: 12),
-          Text(desc, style: const TextStyle(fontSize: 14, height: 1.4)),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildEducationItem(String degree, String details) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
         border: Border.all(color: Colors.black, width: 2),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(degree.toUpperCase(), style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
+          Text(degree.toUpperCase(), style: GoogleFonts.spaceGrotesk(fontSize: 20, fontWeight: FontWeight.w900)),
           const SizedBox(height: 8),
-          Text(details, style: const TextStyle(height: 1.4)),
+          Text(desc, style: GoogleFonts.spaceMono(fontSize: 14, height: 1.5)),
         ],
       ),
     );
   }
 
-  Widget _buildSkillRow(String category, String skills) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 100,
-            child: Text(category.toUpperCase(), style: const TextStyle(fontWeight: FontWeight.w900)),
-          ),
-          Expanded(child: Text(skills)),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildListItems(List<String> items) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: items.map((e) => Padding(
-        padding: const EdgeInsets.only(bottom: 8.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('× ', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
-            Expanded(child: Text(e, style: const TextStyle(fontWeight: FontWeight.bold))),
-          ],
-        ),
-      )).toList(),
-    );
-  }
-
-  Widget _buildBrutalistFooter() {
+  Widget _buildSkillPill(String skills) {
     return Container(
-      padding: const EdgeInsets.all(32),
-      color: Colors.black,
-      child: const Center(
+      width: double.infinity,
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(16),
+      decoration: const BoxDecoration(
+        color: Colors.black,
+      ),
+      child: Text(
+        skills,
+        style: GoogleFonts.spaceMono(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  Widget _buildListText(String text) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Text(text, style: GoogleFonts.spaceMono(fontSize: 15, fontWeight: FontWeight.w600)),
+    );
+  }
+
+  Widget _buildFooter() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 64),
+      decoration: const BoxDecoration(
+        border: Border(top: BorderSide(color: Colors.black, width: 4)),
+      ),
+      child: Center(
         child: Text(
-          'END OF FILE.',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w900,
-            fontSize: 24,
-            letterSpacing: 8,
-          ),
+          'AHMAD WASIM © 2026',
+          style: GoogleFonts.spaceGrotesk(fontSize: 24, fontWeight: FontWeight.w900, letterSpacing: 4),
         ),
+      ),
+    );
+  }
+}
+
+// Background Grid Painter for Architectural Feel
+class GridPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.black.withOpacity(0.05)
+      ..strokeWidth = 1.0;
+
+    const double spacing = 40.0;
+
+    for (double i = 0; i < size.width; i += spacing) {
+      canvas.drawLine(Offset(i, 0), Offset(i, size.height), paint);
+    }
+    for (double i = 0; i < size.height; i += spacing) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
+// Custom Hover interaction widget
+class HoverBox extends StatefulWidget {
+  final Widget child;
+
+  const HoverBox({super.key, required this.child});
+
+  @override
+  State<HoverBox> createState() => _HoverBoxState();
+}
+
+class _HoverBoxState extends State<HoverBox> {
+  bool isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => isHovered = true),
+      onExit: (_) => setState(() => isHovered = false),
+      cursor: SystemMouseCursors.click,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        transform: Matrix4.translationValues(0, isHovered ? -8 : 0, 0),
+        decoration: BoxDecoration(
+          boxShadow: isHovered
+              ? [
+                  const BoxShadow(
+                    color: Colors.black,
+                    offset: Offset(8, 8),
+                    blurRadius: 0,
+                  )
+                ]
+              : [],
+        ),
+        child: widget.child,
       ),
     );
   }
