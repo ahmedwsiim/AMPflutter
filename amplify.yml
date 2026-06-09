@@ -3,6 +3,8 @@ frontend:
   phases:
     preBuild:
       commands:
+        # Remove cached flutter directory if it exists to prevent clone errors
+        - rm -rf flutter
         # Clone the lightweight stable branch of Flutter
         - git clone https://github.com/flutter/flutter.git -b stable --depth 1
         # Add Flutter to the temporary build path
