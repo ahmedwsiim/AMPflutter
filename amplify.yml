@@ -1,0 +1,25 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        # Clone the lightweight stable branch of Flutter
+        - git clone https://github.com/flutter/flutter.git -b stable --depth 1
+        # Add Flutter to the temporary build path
+        - export PATH="$PATH:$(pwd)/flutter/bin"
+        # Download the specific web dependencies
+        - flutter doctor
+        - flutter pub get
+    build:
+      commands:
+        # Compile the source code into optimized HTML, JS, and CSS
+        - flutter build web --release
+  artifacts:
+    # Target the compiled production folder
+    baseDirectory: build/web
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - flutter/**/*
+      - .pub-cache/**/*
